@@ -5,6 +5,7 @@ from __future__ import print_function
 import os
 from . import oauth2
 import spotipy
+from . import url_auth_ui
 
 def prompt_for_user_token(username, scope=None, client_id = None,
         client_secret = None, redirect_uri = None, cache_path = None):
@@ -76,13 +77,16 @@ def prompt_for_user_token(username, scope=None, client_id = None,
 
         print()
         print()
-        try:
-            response = raw_input("Enter the URL you were redirected to: ")
-        except NameError:
-            response = input("Enter the URL you were redirected to: ")
+        # try:
+        #     response = raw_input("Enter the URL you were redirected to: ")
+        # except NameError:
+        #     response = input("Enter the URL you were redirected to: ")
+
+        url_return = url_auth_ui.ReturnURLFromEntry()
+        response = url_return.url_value
 
         print()
-        print() 
+        print()
 
         code = sp_oauth.parse_response_code(response)
         token_info = sp_oauth.get_access_token(code)
